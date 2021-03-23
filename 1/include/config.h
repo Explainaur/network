@@ -1,0 +1,6 @@
+#ifndef NETWORK_CONFIG_H
+#define NETWORK_CONFIG_H
+
+#define SERVER_PORT 2333
+
+#endif //NETWORK_CONFIG_H
