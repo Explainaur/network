@@ -2,5 +2,6 @@
 #define NETWORK_CONFIG_H
 
 #define SERVER_PORT 2333
+#define SERVER_BUFFER_SIZE 1024
 
 #endif //NETWORK_CONFIG_H

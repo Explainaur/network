@@ -1,9 +1,9 @@
 add_library(Client STATIC
-        socket.cpp
+        base_socket.cpp
         client_socket.cpp
         )
 
 add_library(Server STATIC
-        socket.cpp
+        base_socket.cpp
         server_socket.cpp
         )

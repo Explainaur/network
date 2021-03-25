@@ -14,7 +14,7 @@
 // TRACE: trace with message
 # define TRACE(fmt, ...) \
   do { \
-    printf("%s:%d:%s\n  ", __FILE__, __LINE__, __FUNCTION__); \
+    printf("%s:%d:%s: ", __FILE__, __LINE__, __FUNCTION__); \
     printf(fmt, ##__VA_ARGS__); \
   } while (0)
 

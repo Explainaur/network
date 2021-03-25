@@ -1,7 +1,7 @@
 #ifndef CLIENT_SOCKET_H
 #define CLIENT_SOCKET_H
 
-#include "socket.h"
+#include "base_socket.h"
 
 #include <utility>
 

@@ -1,5 +1,3 @@
-//#include <cstdio>
-//#include <cstdlib>
 #include <unistd.h>
 
 #include <utility>
@@ -72,11 +70,11 @@ int ClientSocketManager::Recv(char *buffer, int buf_size, int socket_fd) {
   return ret;
 }
 
-int ClientSocketManager::Send(std::string &msg, int socketfd) {
+int ClientSocketManager::Send(std::string &msg, int socket_fd) {
   const char *msg_start = msg.c_str();
   int ret = -1;
   try {
-    ret = write(socketfd, msg_start, strlen(msg_start));
+    ret = write(socket_fd, msg_start, strlen(msg_start));
     if (ret < 0) {
       throw "Send message failed";
     }
