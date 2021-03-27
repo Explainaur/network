@@ -1,6 +1,7 @@
 # debug
 cmake-build-debug
 build
+2/node_modules
 
 #clion
 .idea
