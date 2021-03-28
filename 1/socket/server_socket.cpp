@@ -14,17 +14,17 @@ int ServerSocketManager::create_socket(int port, const char *address) {
 
   try {
     if ((listen_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-      throw "Create socket failed";
+      THROW(CREATE_SOCKET_FAILED);
     }
-  } catch (const char *msg) {
-    ERROR("%s", msg);
+  } catch (NetworkException &exception) {
+    ERROR_RETURN(exception);
   }
 
   try {
     if (setsockopt(listen_fd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on)) < 0)
-      throw "Set socket option failed";
-  } catch (const char *msg) {
-    ERROR("%s", msg);
+      THROW(SET_SOCKET_FAILED);
+  } catch (NetworkException &exception) {
+    ERROR_RETURN(exception);
   }
 
   struct sockaddr_in serv_addr{};
@@ -35,10 +35,10 @@ int ServerSocketManager::create_socket(int port, const char *address) {
 
   try {
     if (bind(listen_fd, (const sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-      throw "Bind address failed";
+      THROW(BIND_ADDRESS_FAILED);
     }
-  } catch (const char *msg) {
-    ERROR("%s", msg);
+  } catch (NetworkException &exception) {
+    ERROR_RETURN(exception);
   }
 
   return listen_fd;
@@ -53,10 +53,10 @@ int ServerSocketManager::Recv(char *buffer, int buf_size, int socket_fd) {
   int ret = -1;
   try {
     if ((ret = read(socket_fd, buffer, buf_size)) < 0) {
-      throw "Receive data failed";
+      THROW(RECV_DATA_FAILED);
     }
-  } catch (const char *msg) {
-    ERROR("%s", msg);
+  } catch (NetworkException &exception) {
+    ERROR_RETURN(exception);
   }
   return ret;
 }
@@ -67,10 +67,10 @@ int ServerSocketManager::Send(std::string &msg, int socket_fd) {
   try {
     ret = write(socket_fd, msg_start, strlen(msg_start));
     if (ret < 0) {
-      throw "Send message failed";
+      THROW(SEND_MESSAGE_FAILED);
     }
-  } catch (const char *msg) {
-    ERROR("%s", msg);
+  } catch (NetworkException &exception) {
+    ERROR_RETURN(exception);
   }
   return 0;
 }

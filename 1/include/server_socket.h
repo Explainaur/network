@@ -2,13 +2,16 @@
 #define SERVER_SOCKET_H
 
 #include <vector>
+
+
+#include "user.h"
 #include "base_socket.h"
 
 namespace network {
 class ServerSocketManager : public SocketManager {
 private:
   int _listen_port;
-  std::vector<bool> ports;
+  std::vector<User> _clients;
 
   ServerSocketManager() {}
 

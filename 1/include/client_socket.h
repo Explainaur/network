@@ -38,11 +38,29 @@ public:
     _instance.SetServerInfo(std::move(serverInfo));
   }
 
-  int create_socket(int port, const char *address) override;
+  int create_socket(int port, const char *address, bool if_connect);
+
+  int create_socket(int port, const char *address) override {
+    create_socket(port, address, true);
+  }
 
   int CreateSocket(const ServerInfo &serverInfo);
 
+  int ReConnect(int port, const char *address);
+
+  int ReConnect(ServerInfo &serverInfo) {
+    return ReConnect(serverInfo.port, serverInfo.server_addr.c_str());
+  }
+
+  void HandleError(NetworkException &networkException) {
+    HandleError(networkException.GetErrorCode());
+  }
+
+  void HandleError(int error_code);
+
   void SetServerInfo(ServerInfo serverInfo);
+
+  void SetPort(int port) { _server_info.port = port; }
 
   // receive message from server
   int Recv(char *buffer, int buf_size, int socket_fd) override;

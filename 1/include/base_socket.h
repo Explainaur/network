@@ -2,9 +2,15 @@
 #define NET_SOCKET_H
 
 #include <string>
+#include <cstring>
+#include <unistd.h>
+#include <sys/types.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
+
 #include "config.h"
 #include "network_def.h"
+#include "network_exception.h"
 
 namespace network {
 

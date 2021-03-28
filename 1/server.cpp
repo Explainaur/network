@@ -1,11 +1,10 @@
 #include <iostream>
-#include <unistd.h>
-#include <netinet/in.h>
 #include "server_socket.h"
+#include "network_exception.h"
 
 using namespace network;
 
-void driver() {
+int driver() {
   ServerSocketManager::Initialize();
   auto socket_mgr = ServerSocketManager::GetSocketManager();
   auto listen_fd = socket_mgr->create_socket(SERVER_PORT);
@@ -15,23 +14,33 @@ void driver() {
   socklen_t client_size = sizeof(client_addr);
 
   listen(listen_fd, 5);
+//
+//  int maxfd = listen_fd, maxi = -1;
+//  fd_set reset, all_set;
+//  FD_ZERO(&all_set);
+//  FD_SET(listen_fd, &all_set);
 
+
+
+
+
+//#if 0
   for (;;) {
     try {
       new_sock_fd = accept(listen_fd, (struct sockaddr *) &client_addr, &client_size);
       if (new_sock_fd < 0) {
-        throw "Accept socket failed";
+        THROW(ACCEPT_SOCKET_FAILED);
       }
-    } catch (const char *msg) {
-      ERROR("%s", msg);
+    } catch (NetworkException &exception) {
+      ERROR_RETURN(exception);
     }
 
     try {
       if ((pid = fork()) < 0) {
-        throw "Fork sub process failed";
+        THROW(FORK_SUBPROCESS_FAILED);
       }
-    } catch (const char *msg) {
-      ERROR("%s", msg);
+    } catch (NetworkException &exception) {
+      ERROR_RETURN(exception);
     }
 
     if (pid == 0) {
@@ -44,6 +53,7 @@ void driver() {
     }
 
   }
+//#endif
 
 }
 
