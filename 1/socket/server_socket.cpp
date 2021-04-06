@@ -91,5 +91,61 @@ void ServerSocketManager::Process(int socket_fd) {
   }
 }
 
+int ServerSocketManager::RegisterUser(std::string &username, int socket_fd) {
+  User user;
+  user.SetUserInfo(username, socket_fd);
+  _clients.push_back(user);
+}
+
+
+void ServerSocketManager::HandleError(int err_code) {
+  switch (err_code) {
+    case LOGIN_FAILED_CODE: {
+      LoginFailedHandler();
+      break;
+    }
+    case RECV_DATA_FAILED_CODE: {
+      break;
+    }
+    case USERNAME_CONFLICT_CODE: {
+      UsernameConflictHandler();
+    }
+    case INVALID_IPV4_PORT_CODE: {
+      break;
+    }
+    case SET_SOCKET_FAILED_CODE: {
+      break;
+    }
+    case BIND_ADDRESS_FAILED_CODE: {
+      break;
+    }
+    case SEND_MESSAGE_FAILED_CODE: {
+      break;
+    }
+    case CREATE_SOCKET_FAILED_CODE: {
+      break;
+    }
+    case ACCEPT_SOCKET_FAILED_CODE: {
+      break;
+    }
+    case CREATE_CHANNEL_FAILED_CODE: {
+      break;
+    }
+    case FORK_SUBPROCESS_FAILED_CODE: {
+      break;
+    }
+    default: {
+      break;
+    }
+  }
+}
+
+void ServerSocketManager::LoginFailedHandler() {
+
+}
+
+void ServerSocketManager::UsernameConflictHandler() {
+
+}
 
 }

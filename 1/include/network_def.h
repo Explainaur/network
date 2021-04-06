@@ -61,4 +61,6 @@
     } \
   } while (0)
 
+#define LOGIN_SUCCESS "User login success!"
+
 #endif //NETWORK_DEF_H

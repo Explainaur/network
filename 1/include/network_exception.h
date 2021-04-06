@@ -4,8 +4,14 @@
 #include <exception>
 #include "network_def.h"
 
+#define LOGIN_FAILED                "User login failed"
+#define LOGIN_FAILED_CODE           -108
+
 #define RECV_DATA_FAILED            "Receive data failed"
-#define RECV_DATA_FAILED_CODE       -110
+#define RECV_DATA_FAILED_CODE       -109
+
+#define USERNAME_CONFLICT           "User name conflict"
+#define USERNAME_CONFLICT_CODE      -110
 
 #define INVALID_IPV4_PORT           "Invalid ipv4 port number"
 #define INVALID_IPV4_PORT_CODE      -111
