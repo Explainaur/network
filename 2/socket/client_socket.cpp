@@ -87,22 +87,14 @@ int ClientSocketManager::ReConnect(int port, const char *address) {
 int ClientSocketManager::Recv(char *buffer, int buf_size, int socket_fd) {
   memset(buffer, 0, buf_size);
   int ret = -1;
-//  fd_set read_set;
-//
-//  /* init the fd_set */
-//  FD_ZERO(&read_set);
-//
-//  select(socket_fd + 1, &read_set, nullptr, nullptr, nullptr);
 
   try {
-//    if (FD_ISSET(socket_fd, &read_set)) {
     ret = read(socket_fd, buffer, buf_size);
     if (ret < 0) {
       THROW(RECV_DATA_FAILED);
     } else if (ret == 0) {
       THROW(SERVER_TERMINATED);
     }
-//    }
   } catch (NetworkException &exception) {
     ERROR_RETURN(exception);
   }

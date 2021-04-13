@@ -1,4 +1,3 @@
-#include <iostream>
 #include "server_socket.h"
 #include "network_exception.h"
 
@@ -14,17 +13,7 @@ int driver() {
   socklen_t client_size = sizeof(client_addr);
 
   listen(listen_fd, 5);
-//
-//  int maxfd = listen_fd, maxi = -1;
-//  fd_set reset, all_set;
-//  FD_ZERO(&all_set);
-//  FD_SET(listen_fd, &all_set);
 
-
-
-
-
-//#if 0
   for (;;) {
     try {
       new_sock_fd = accept(listen_fd, (struct sockaddr *) &client_addr, &client_size);

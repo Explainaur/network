@@ -1,6 +1,8 @@
 #ifndef NETWORK_USER_H
 #define NETWORK_USER_H
 
+#include <string>
+
 namespace network {
 
 class User {

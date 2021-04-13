@@ -3,13 +3,13 @@
 
 using namespace network;
 
-[[noreturn]] [[noreturn]] void driver(char *args[]) {
+[[noreturn]] void driver(char *args[]) {
   ClientSocketManager::Initialize({args[1], 2333});
   auto sock_mgr = ClientSocketManager::GetSocketManager();
   sock_mgr->CreateSocket(sock_mgr->serverInfo());
 
   int err_code = 0;
-  std::string msg = "";
+  std::string msg;
   char buffer[256];
   for (;;) {
     std::cin >> msg;

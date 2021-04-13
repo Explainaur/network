@@ -10,10 +10,10 @@
 namespace network {
 class ServerSocketManager : public SocketManager {
 private:
-  int _listen_port;
+  int _listen_port{};
   std::vector<User> _clients;
 
-  ServerSocketManager() {}
+  ServerSocketManager() = default;
 
   static ServerSocketManager _instance;
 
