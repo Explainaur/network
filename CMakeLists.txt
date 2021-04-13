@@ -15,6 +15,6 @@ else ()
     set(OPT_FLAGS "-O2")
 endif ()
 
-#add_subdirectory(1)
+add_subdirectory(1)
 add_subdirectory(2)
 #add_subdirectory(3)

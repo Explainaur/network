@@ -57,26 +57,6 @@ public:
   virtual int Send(std::string &msg, int socketfd) = 0;
 
   virtual void PrintMsg(const std::string &) const;
-
-  //update maxfd
-
-
-//  virtual bool SocketConnected(int sock) {
-//    if (sock <= 0)
-//      return false;
-//    struct tcp_connection_info info{};
-//    int len = sizeof(info);
-//    getsockopt(sock, IPPROTO_TCP, TCP_CONNECTION_INFO, &info, (socklen_t *) &len);
-//    printf("%d\n", info.tcpi_state);
-////    if ((info.tcpi_state == TCP_ESTABLISHED)) {
-////      myprintf("socket connected\n");
-////      return true;
-////    } else {
-////      myprintf("socket disconnected\n");
-////      return false;
-////    }
-//  }
-
 };
 }
 
