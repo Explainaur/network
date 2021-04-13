@@ -1,6 +1,7 @@
 # debug
 cmake-build-debug
 build
+linux_build
 2/node_modules
 
 #clion

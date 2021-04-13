@@ -1,0 +1,13 @@
+#ifndef NETWORK_CONFIG_H
+#define NETWORK_CONFIG_H
+
+#define SERVER_PORT 2333
+#define SERVER_BUFFER_SIZE 1024
+
+#define SELECT_TIMEOUT 5
+
+#define EOF_CODE 1
+#define HEAD_LEN  2
+#define LOGIN_CODE "\xc8\x1"
+
+#endif //NETWORK_CONFIG_H

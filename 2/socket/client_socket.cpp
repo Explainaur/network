@@ -1,6 +1,7 @@
 #include <unistd.h>
 
 #include <utility>
+#include <iostream>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
@@ -124,6 +125,27 @@ int ClientSocketManager::Send(std::string &msg, int socket_fd) {
   return ret;
 }
 
+int ClientSocketManager::Login() {
+  char buffer[256];
+  std::string login_token = (const char *) LOGIN_CODE + _username;
+  this->Send(login_token, _socket_fd);
+  this->Recv(buffer, 256, _socket_fd);
+
+  try {
+    if (strcmp(buffer, LOGIN_SUCCESS) == 0) {
+      TRACE("%s\n", buffer);
+    } else if (!strcmp(buffer, USERNAME_CONFLICT)) {
+      THROW(USERNAME_CONFLICT);
+    } else {
+      THROW(LOGIN_FAILED);
+    }
+  } catch (NetworkException &exception) {
+    ERROR_RETURN(exception);
+  }
+
+  return 0;
+}
+
 void ClientSocketManager::InitManager() {
   _server_info = {
       "127.0.0.1",
@@ -145,22 +167,22 @@ int ClientSocketManager::CreateSocket(const ServerInfo &serverInfo) {
 
 void ClientSocketManager::HandleError(int err_code) {
   switch (err_code) {
+    case LOGIN_FAILED_CODE: {
+      LoginFailedHandler();
+      break;
+    }
     case RECV_DATA_FAILED_CODE: {
       break;
+    }
+    case USERNAME_CONFLICT_CODE: {
+      UsernameConflictHandler();
     }
     case INVALID_IPV4_PORT_CODE: {
       break;
     }
     case SERVER_TERMINATED_CODE: {
-      _socket_fd = -1;
-      while (true) {
-        if (ReConnect(_server_info) < 0) {
-          continue;
-        } else {
-          TRACE("Session reconnected");
-          return;
-        }
-      }
+      ServerTerminatedHandler();
+      break;
     }
     case SET_SOCKET_FAILED_CODE: {
       break;
@@ -188,4 +210,46 @@ void ClientSocketManager::HandleError(int err_code) {
     }
   }
 }
+
+void ClientSocketManager::LoginFailedHandler() {
+  int err_code;
+  do {
+    std::cout << "Username: ";
+    std::cin >> _username;
+    err_code = this->Login();
+  } while (err_code);
+}
+
+void ClientSocketManager::UsernameConflictHandler() {
+  std::cout << "Username is duplicate." << std::endl;
+  this->LoginFailedHandler();
+}
+
+void ClientSocketManager::ServerTerminatedHandler() {
+  _socket_fd = -1;
+  while (true) {
+    if (ReConnect(_server_info) < 0) {
+      continue;
+    } else {
+      TRACE("Session reconnected\n");
+      this->LoginWithCommandLine();
+      return;
+    }
+  }
+}
+
+void ClientSocketManager::LoginWithCommandLine() {
+  char buf[256];
+  int err_code;
+
+  printf("Username: ");
+  fflush(stdout);
+  scanf("%s", buf);
+
+  std::string username = buf;
+  this->SetUsername(username);
+  err_code = this->Login();
+  this->HandleError(err_code);
+}
+
 }
